@@ -1,0 +1,6 @@
+.virtualenv
+*.pickle
+*.html
+*.txt
+*.json
+
