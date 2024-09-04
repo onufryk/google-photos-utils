@@ -140,9 +140,10 @@ def main(secret_file):
   photos_by_year = collections.defaultdict(list)
   for photo_id in photos_without_album_ids:
     photo = all_photos_mapping[photo_id]
-    creationTime = datetime.datetime.strptime(photo['mediaMetadata']['creationTime'], '%Y-%m-%dT%H:%M:%SZ')
-    photo['creationTime'] = creationTime
-    photos_by_year[creationTime.year].append(photo)
+    # creationTime = datetime.datetime.strptime(photo['mediaMetadata']['creationTime'], '%Y-%m-%dT%H:%M:%S%z')
+    # photo['creationTime'] = creationTime
+    creation_year = photo['mediaMetadata']['creationTime'][:4]
+    photos_by_year[creation_year].append(photo)
 
   with open('stats.txt', "w") as stats:
     with open('photos_without_albums.html', "w") as file:
@@ -156,7 +157,7 @@ def main(secret_file):
   with open('videos.html', "w") as file:
     for photo in all_photos:
       filename, file_extension = os.path.splitext(photo['filename'])
-      if file_extension.lower() == '.jpg' or file_extension.lower() == '.jpeg' or file_extension.lower() == '.png' or file_extension.lower() == '.heic':
+      if file_extension.lower() == '.jpg' or file_extension.lower() == '.jpeg' or file_extension.lower() == '.png' or file_extension.lower() == '.heic' or file_extension.lower() == '.dng':
         continue
 
       file.write('<a href="{}">{}</a><br>\n'.format(photo['productUrl'], photo['filename']))
